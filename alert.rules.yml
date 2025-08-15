@@ -1,0 +1,38 @@
+groups:
+- name: node.rules
+  rules:
+  - alert: InstanceDown
+    expr: up == 0
+    for: 1m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Instance down ({{ $labels.instance }})"
+      description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 1 minute."
+
+  - alert: HighCPUUsage
+    expr: 100 * (1 - avg by(instance)(rate(node_cpu_seconds_total{mode="idle"}[5m]))) > 80
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "High CPU usage ({{ $labels.instance }})"
+      description: "CPU usage is above 80% for 5 minutes."
+
+  - alert: HighMemoryUsage
+    expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 85
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "High memory usage ({{ $labels.instance }})"
+      description: "Memory usage is above 85% for 5 minutes."
+
+  - alert: LowDiskSpace
+    expr: (node_filesystem_size_bytes{fstype!~"tmpfs|overlay"} - node_filesystem_free_bytes{fstype!~"tmpfs|overlay"}) / node_filesystem_size_bytes{fstype!~"tmpfs|overlay"} * 100 > 85
+    for: 10m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Low disk space ({{ $labels.instance }})"
+      description: "Disk usage above 85% for 10 minutes."
