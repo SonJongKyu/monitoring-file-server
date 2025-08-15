@@ -19,30 +19,26 @@
 
 ## **🔨 Technology Stack(s)**
 
-- Prometheus
-- Grafana
-- Slack Webhook
-- Linux (Ubuntu)
-- Shell Script
+Prometheus, Grafana, Slack Webhook, Linux (Ubuntu), Shell Script
 
 ## **⚙️ Setup & Usage**
 
 **1. Prometheus 설치**
-```jsx
+```
 wget https://github.com/prometheus/prometheus/releases/download/v2.48.0/prometheus-2.48.0.linux-amd64.tar.gz
 tar xvf prometheus-*.tar.gz
 cd prometheus-*
 ```
 
 **2. Grafana 설치**
-```jsx
+```
 sudo apt-get install -y apt-transport-https software-properties-common
 sudo add-apt-repository "deb https://packages.grafana.com/oss/deb stable main"
 sudo apt-get update && sudo apt-get install grafana
 ```
 
 **3. Prometheus와 Grafana 실행**
-```jsx
+```
 ./prometheus --config.file=prometheus.yml
 sudo systemctl start grafana-server
 ```
